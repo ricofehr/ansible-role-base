@@ -22,9 +22,10 @@
 - name: "Build hosts file"
   lineinfile:
     dest: /etc/hosts
-    line: "{{ hostvars[item]['ansible_ssh_host'] }} {{item}}"
+    line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{item}}"
     state: present
-  with_items: "{{ groups.all }}"
+  with_items: "{{ ansible_play_hosts }}"
+  become: yes
 
 - name: Ssh config strict hostkey
   lineinfile: dest=/etc/ssh/ssh_config line='StrictHostKeyChecking no'
