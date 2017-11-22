@@ -8,8 +8,11 @@
 
 - name: ansible user shell
   user:
+    append: yes
     name: "{{ ansible_user }}"
     shell: /bin/zsh
+    groups:
+      - admin
   become: yes
 
 - name: Check if pubkey file exists
