@@ -1,6 +1,6 @@
 ---
 
-packages:
+base_packages:
     - sshpass
     - vim
     - htop
