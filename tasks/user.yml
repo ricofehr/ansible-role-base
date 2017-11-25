@@ -15,6 +15,10 @@
       - admin
   become: yes
 
+- file:
+    path: ~/.zshrc
+    state: touch
+
 - name: Check if pubkey file exists
   local_action: stat path="~/.ssh/id_rsa.pub"
   register: file
