@@ -19,13 +19,34 @@
   lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost {{ inventory_hostname }}' owner=root group=root mode=0644
   become: yes
 
+- name: "Debug 0"
+  debug: "var=hostvars"
+
+- name: "Debug"
+  debug: "var={{ hostvars[item] }}"
+  with_items: "{{ ansible_play_hosts }}"
+  become: yes
+
 - name: "Build hosts file"
+  lineinfile:
+    dest: /etc/hosts
+    line: "{{ hostvars[item]['ansible_ssh_host4'] }} {{item}}"
+    state: present
+  with_items: "{{ ansible_play_hosts }}"
+  when: hostvars[inventory_hostname]['ansible_ssh_host4'] is defined
+  become: yes
+
+- name: "Build hosts file, again"
   lineinfile:
     dest: /etc/hosts
     line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{item}}"
     state: present
   with_items: "{{ ansible_play_hosts }}"
   become: yes
+  ignore_errors: true
+  when:
+    - hostvars[inventory_hostname]['ansible_ssh_host4'] }} is not defined
+    - hostvars[item]['ansible_default_ipv4']['address'] }} is defined
 
 - name: Ssh config strict hostkey
   lineinfile: dest=/etc/ssh/ssh_config line='StrictHostKeyChecking no'
