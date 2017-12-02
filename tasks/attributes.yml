@@ -30,10 +30,10 @@
 - name: "Build hosts file"
   lineinfile:
     dest: /etc/hosts
-    line: "{{ hostvars[item]['ansible_ssh_host4'] }} {{item}}"
+    line: "{{ hostvars[item]['ansible_host'] }} {{item}}"
     state: present
   with_items: "{{ ansible_play_hosts }}"
-  when: hostvars[inventory_hostname]['ansible_ssh_host4'] is defined
+  when: hostvars[inventory_hostname]['ansible_host'] is defined
   become: yes
 
 - name: "Build hosts file, again"
@@ -45,7 +45,7 @@
   become: yes
   ignore_errors: true
   when:
-    - hostvars[inventory_hostname]['ansible_ssh_host4'] }} is not defined
+    - hostvars[inventory_hostname]['ansible_host'] }} is not defined
     - hostvars[item]['ansible_default_ipv4']['address'] }} is defined
 
 - name: Ssh config strict hostkey
