@@ -19,13 +19,13 @@
   lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost {{ inventory_hostname }}' owner=root group=root mode=0644
   become: yes
 
-- name: "Debug 0"
-  debug: "var=hostvars"
+  #- name: "Debug 0"
+  #debug: "var=hostvars"
 
-- name: "Debug"
-  debug: "var={{ hostvars[item] }}"
-  with_items: "{{ ansible_play_hosts }}"
-  become: yes
+  #- name: "Debug"
+  #debug: "var={{ hostvars[item] }}"
+  #with_items: "{{ ansible_play_hosts }}"
+  #become: yes
 
 - name: "Build hosts file"
   lineinfile:
