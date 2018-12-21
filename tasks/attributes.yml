@@ -19,14 +19,6 @@
   lineinfile: dest=/etc/hosts regexp='^127\.0\.0\.1' line='127.0.0.1 localhost {{ inventory_hostname }}' owner=root group=root mode=0644
   become: yes
 
-  #- name: "Debug 0"
-  #debug: "var=hostvars"
-
-  #- name: "Debug"
-  #debug: "var={{ hostvars[item] }}"
-  #with_items: "{{ ansible_play_hosts }}"
-  #become: yes
-
 - name: "Build hosts file"
   lineinfile:
     dest: /etc/hosts
@@ -36,18 +28,6 @@
   when: hostvars[inventory_hostname]['ansible_host'] is defined
   become: yes
 
-- name: "Build hosts file, again"
-  lineinfile:
-    dest: /etc/hosts
-    line: "{{ hostvars[item]['ansible_default_ipv4']['address'] }} {{item}}"
-    state: present
-  with_items: "{{ ansible_play_hosts }}"
-  become: yes
-  ignore_errors: true
-  when:
-    - hostvars[inventory_hostname]['ansible_host'] }} is not defined
-    - hostvars[item]['ansible_default_ipv4']['address'] }} is defined
-
 - name: Ssh config strict hostkey
   lineinfile: dest=/etc/ssh/ssh_config line='StrictHostKeyChecking no'
   become: yes
@@ -55,3 +35,14 @@
 - name: Ssh config userknown
   lineinfile: dest=/etc/ssh/ssh_config line='UserKnownHostsFile /dev/null'
   become: yes
+
+- name: Swappiness to 0
+  shell: echo 0 > /proc/sys/vm/swappiness
+  become: yes
+
+- name: Playbooks touch files folder
+  file:
+    path: ~/.playbooks
+    owner: "{{ ansible_user }}"
+    state: directory
+    mode: 0755
