@@ -27,3 +27,7 @@
     line: '%ADMIN ALL=(ALL) NOPASSWD: ALL'
     validate: '/usr/sbin/visudo -cf %s'
   become: yes
+ 
+- name: Unlock ansible account and disable password auth
+  shell: usermod -p '*' {{ ansible_user }}
+  become: yes
