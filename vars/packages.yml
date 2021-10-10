@@ -18,3 +18,8 @@ base_packages:
     - nmap
     - tcpdump
     - zsh
+    - apt-transport-https
+
+base_packages_latest:
+    - ca-certificates
+
