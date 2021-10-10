@@ -20,3 +20,11 @@
     update_cache: true
     force: yes
   become: yes
+
+- name: Install packages, always in latest version
+  apt:
+    name: "{{ base_packages_latest }}"
+    state: latest
+    update_cache: true
+    force: yes
+  become: yes
