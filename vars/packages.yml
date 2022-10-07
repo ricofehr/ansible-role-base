@@ -7,7 +7,9 @@ base_packages:
     - iotop
     - strace
     - rsync
+    - git
     - links
+    - locales
     - ethtool
     - mailutils
     - ncftp
