@@ -1,0 +1,11 @@
+---
+
+galaxy_info:
+  role_name: base
+  author: ricofehr
+  description: Apply some common attributes and settings for Linux
+  company: NextDeploy
+  license: MIT
+  min_ansible_version: "2.14"
+
+...
