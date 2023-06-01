@@ -10,7 +10,7 @@
   become: true
   ansible.builtin.user:
     append: true
-    name: "{{ ansible_user }}"
+    name: "{{ ansible_user | default('ansible') }}"
     shell: /bin/bash
     password: '*'
     groups:

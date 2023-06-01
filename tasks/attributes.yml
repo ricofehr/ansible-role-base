@@ -47,7 +47,7 @@
 
 - name: Ensure low swappiness value
   become: true
-  when: base_in_container == false
+  when: base_in_container is false 
   ansible.posix.sysctl:
     name: vm.swappiness
     value: '5'
