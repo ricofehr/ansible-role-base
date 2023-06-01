@@ -1,5 +1,12 @@
 ---
 
+- name: Install locales package
+  become: true
+  ansible.builtin.apt:
+    name: locales
+    state: present
+    update_cache: true
+
 - name: Ensure a locale exists
   become: true
   community.general.locale_gen:
@@ -40,6 +47,7 @@
 
 - name: Ensure low swappiness value
   become: true
+  when: base_in_container == false
   ansible.posix.sysctl:
     name: vm.swappiness
     value: '5'
